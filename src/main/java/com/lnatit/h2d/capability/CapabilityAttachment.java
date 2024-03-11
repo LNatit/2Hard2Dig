@@ -16,6 +16,6 @@ public class CapabilityAttachment
     public static void onAttachToPlayer(AttachCapabilitiesEvent<Entity> evt)
     {
         if (evt.getObject() instanceof Player)
-            evt.addCapability(new ResourceLocation(MOD_ID, "break_context"), new ContextProvider());
+            evt.addCapability(new ResourceLocation(MOD_ID, "break_history"), new HistoryProvider());
     }
 }
