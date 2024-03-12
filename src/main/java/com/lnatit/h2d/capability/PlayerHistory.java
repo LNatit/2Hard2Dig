@@ -1,6 +1,7 @@
 package com.lnatit.h2d.capability;
 
 import com.lnatit.h2d.network.HistorySyncPacket;
+import com.lnatit.h2d.network.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -102,7 +103,7 @@ public class PlayerHistory implements IBreakHistory, INBTSerializable<CompoundTa
     @Override
     public void sync(ServerPlayer player)
     {
-
+        NetworkManager.syncHistoryTo(player, this.toPacket());
     }
 
     @Override
