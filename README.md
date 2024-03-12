@@ -21,3 +21,11 @@ Inspired by [Yung's Law](https://www.curseforge.com/minecraft/mc-mods/yungs-law)
 - 提高主世界矿物在矿洞表面生成的概率 (WIP)
 
 _注 * ：仍在考虑是否添加该特性_ 
+
+### Functions Implemented
+
+- Player's break speed is related to the y pos of the targeted block, and as the y pos decreases, the breakspeed shrank too.
+- Break speed will decrease only after the player mined enough blocks (12 for now), and will reach the minimum when mined 16 blocks.
+- The dig count will be half (8 blocks) when two mine actions are 10 blocks away, while the y difference reaching 10 will reset the counter.
+- Blocks with tag ORES won't trigger the dig counter, neither do the break speed will be affected.
+- The feature is only enabled when the y pos is lower than 64 for now, and will be made configurable according to the biome in the future.
