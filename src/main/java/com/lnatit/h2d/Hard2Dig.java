@@ -75,7 +75,7 @@ public class Hard2Dig {
                         yMax,
                         speed,
                         // TODO relate to config settings
-                        0.03125f
+                        0.0078125f
                 );
         float newSpeed = history.update(pos)
                 .getSpeed(speed, minSpeedAtCurrentDepth);

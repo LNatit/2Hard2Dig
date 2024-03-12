@@ -22,23 +22,18 @@ public class HistorySyncPacket
         this.lastDigPos = lastDigPos;
     }
 
-    // TODO fix it!
     public HistorySyncPacket(FriendlyByteBuf buf)
     {
         this.digCount = buf.readInt();
         this.digCooling = buf.readInt();
-        if (buf.readBoolean())
-            this.lastDigPos = buf.readBlockPos();
-        else this.lastDigPos = null;
+        this.lastDigPos = buf.readNullable(FriendlyByteBuf::readBlockPos);
     }
 
     public void encode(FriendlyByteBuf buf)
     {
         buf.writeInt(this.digCount);
         buf.writeInt(this.digCooling);
-        buf.writeBoolean(this.lastDigPos != null);
-        if (this.lastDigPos != null)
-            buf.writeBlockPos(this.lastDigPos);
+        buf.writeNullable(this.lastDigPos, FriendlyByteBuf::writeBlockPos);
     }
 
     public static void handle(HistorySyncPacket packet, Supplier<NetworkEvent.Context> contextSupplier)

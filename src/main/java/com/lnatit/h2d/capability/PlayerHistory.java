@@ -5,13 +5,9 @@ import com.lnatit.h2d.network.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.INBTSerializable;
-
-import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class PlayerHistory implements IBreakHistory, INBTSerializable<CompoundTag>
 {
@@ -59,9 +55,10 @@ public class PlayerHistory implements IBreakHistory, INBTSerializable<CompoundTa
         }
 
         this.lastDigPos = pos;
-        LOGGER.info("Current count: " + digCount);
-        LOGGER.info("Current cooling: " + digCooling);
-        LOGGER.info("Current pos: " + lastDigPos.toString());
+        // debug codes
+//        LOGGER.info("Current count: " + digCount);
+//        LOGGER.info("Current cooling: " + digCooling);
+//        LOGGER.info("Current pos: " + lastDigPos.toString());
         return this;
     }
 
@@ -127,7 +124,7 @@ public class PlayerHistory implements IBreakHistory, INBTSerializable<CompoundTa
         tag.putInt(TAG_COUNT, digCount);
         tag.putInt(TAG_COOLING, digCooling);
         if (this.lastDigPos != null)
-            tag.put(TAG_POS, from(this.lastDigPos));
+            tag.put(TAG_POS, fromPos(this.lastDigPos));
         return tag;
     }
 
@@ -137,10 +134,10 @@ public class PlayerHistory implements IBreakHistory, INBTSerializable<CompoundTa
         this.digCount = nbt.getInt(TAG_COUNT);
         this.digCooling = nbt.getInt(TAG_COOLING);
         if (nbt.contains(TAG_POS, Tag.TAG_COMPOUND))
-            this.lastDigPos = from(nbt.getCompound(TAG_POS));
+            this.lastDigPos = fromTag(nbt.getCompound(TAG_POS));
     }
 
-    private static CompoundTag from(BlockPos pos)
+    private static CompoundTag fromPos(BlockPos pos)
     {
         CompoundTag tag = new CompoundTag();
         tag.putInt("x", pos.getX());
@@ -149,45 +146,11 @@ public class PlayerHistory implements IBreakHistory, INBTSerializable<CompoundTa
         return tag;
     }
 
-    private static BlockPos from(CompoundTag tag)
+    private static BlockPos fromTag(CompoundTag tag)
     {
         int x = tag.getInt("x");
         int y = tag.getInt("y");
         int z = tag.getInt("z");
         return new BlockPos(x, y, z);
     }
-//
-//    public static class BreakEntry implements INBTSerializable<CompoundTag> {
-//        BlockPos pos;
-//        public static final String TAG_POS = "pos";
-//        Block block;
-//        public static final String TAG_BLOCK = "block";
-//
-//        @Override
-//        public CompoundTag serializeNBT() {
-//            CompoundTag tag = new CompoundTag();
-//            CompoundTag temp = new CompoundTag();
-//            temp.putInt("x", pos.getX());
-//            temp.putInt("y", pos.getY());
-//            temp.putInt("z", pos.getZ());
-//            tag.put(TAG_POS, temp);
-//            ResourceLocation rl = ForgeRegistries.BLOCKS.getKey(block);
-//            if (rl == null) {
-//                LOGGER.warn("Wtf???");
-//                rl = new ResourceLocation("air");
-//            }
-//            temp.putString(TAG_BLOCK, rl.toString());
-//            return tag;
-//        }
-//
-//        @Override
-//        public void deserializeNBT(CompoundTag nbt) {
-//            CompoundTag temp = nbt.getCompound(TAG_POS);
-//            int x = temp.getInt("x");
-//            int y = temp.getInt("y");
-//            int z = temp.getInt("z");
-//            this.pos = new BlockPos(x, y, z);
-//            this.block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(nbt.getString(TAG_BLOCK)));
-//        }
-//    }
 }
