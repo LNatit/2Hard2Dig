@@ -1,6 +1,8 @@
 ## 隐岩砥凿
 ## Too Hard to Dig (2Hard2Dig)
 
+鼓励玩家进入矿洞探险或发展科技挖矿手段
+
 ### 简介
 ### Brief
 
